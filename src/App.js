@@ -7,6 +7,7 @@ import Register from './components/Register/Register';
 import Logo from './components/Logo/Logo';
 import ImageLinkForm from './components/ImageLinkForm/ImageLinkForm';
 import Rank from './components/Rank/Rank';
+import Origin from "./components/Origin/Origin";
 import './App.css';
 
 
@@ -33,6 +34,7 @@ const particlesOptions={
       input:'',
       imageUrl:'',
       box:{},
+      analyze: {},
       route:'signin',
       isSignedIn: false,
       user: {
@@ -60,8 +62,51 @@ class App extends Component{
         entries: data.entries,
         joined: data.joined
     }})
-
   }
+
+
+   analyzeData= (data) => {
+    const age = data.outputs[0].data.regions[0].data.face.age_appearance.concepts[0].name;
+    const gender = data.outputs[0].data.regions[0].data.face.gender_appearance.concepts[0].name;
+    const appearance = data.outputs[0].data.regions[0].data.face.multicultural_appearance.concepts[0].name;
+    const appearancePercent =Math.round (data.outputs[0].data.regions[0].data.face.multicultural_appearance.concepts[0].value.toFixed(2) * 100);
+    const appearance2 = data.outputs[0].data.regions[0].data.face.multicultural_appearance.concepts[1].name;
+    const appearancePercent2 = Math.round (data.outputs[0].data.regions[0].data.face.multicultural_appearance.concepts[1].value.toFixed(2) * 100);
+    const appearance3 = data.outputs[0].data.regions[0].data.face.multicultural_appearance.concepts[2].name;
+    const appearancePercent3 =Math.round (data.outputs[0].data.regions[0].data.face.multicultural_appearance.concepts[2].value.toFixed(2) * 100);
+    const appearance4 = data.outputs[0].data.regions[0].data.face.multicultural_appearance.concepts[3].name;
+    const appearancePercent4 = Math.round(data.outputs[0].data.regions[0].data.face.multicultural_appearance.concepts[3].value.toFixed(2) * 100);
+    const appearance5 = data.outputs[0].data.regions[0].data.face.multicultural_appearance.concepts[4].name;
+    const appearancePercent5 =Math.round (data.outputs[0].data.regions[0].data.face.multicultural_appearance.concepts[4].value.toFixed(2) * 100);
+    const appearance6 = data.outputs[0].data.regions[0].data.face.multicultural_appearance.concepts[5].name;
+    const appearancePercent6 = Math.round (data.outputs[0].data.regions[0].data.face.multicultural_appearance.concepts[5].value.toFixed(2) * 100);
+    const appearance7 = data.outputs[0].data.regions[0].data.face.multicultural_appearance.concepts[6].name;
+    const appearancePercent7 = Math.round (data.outputs[0].data.regions[0].data.face.multicultural_appearance.concepts[6].value.toFixed(2) * 100);
+
+    return {
+      age,
+      gender,
+      appearance,
+      appearancePercent,
+      appearance2,
+      appearancePercent2,
+      appearance3,
+      appearancePercent3,
+      appearance4,
+      appearancePercent4,
+      appearance5,
+      appearancePercent5,
+      appearance6,
+      appearancePercent6,
+      appearance7,
+      appearancePercent7
+    };
+  };
+
+   displayData = (analyze) => {
+    this.setState({ analyze: analyze });
+  };
+
 
   calculateFaceLocation=(data)=>{
     const clarifaiFace = data.outputs[0].data.regions[0].region_info.bounding_box;
@@ -92,7 +137,7 @@ class App extends Component{
     //console.log('click');
     this.setState({imageUrl: this.state.input}) 
 
-     fetch('http://localhost:3000/imageurl', {
+     fetch('https://blooming-fjord-39123.herokuapp.com/imageurl', {
                 method: 'post',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({
@@ -102,7 +147,7 @@ class App extends Component{
     .then(response => response.json()) 
     .then(response=>{
           if (response){// got a response from the API
-            fetch('http://localhost:3000/image', {
+            fetch('https://blooming-fjord-39123.herokuapp.com/image', {
                 method: 'put',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({
@@ -116,7 +161,8 @@ class App extends Component{
             })
             .catch(console.log)
           }//if
-          this.displayFaceBox(this.calculateFaceLocation(response))
+          this.displayFaceBox(this.calculateFaceLocation(response));
+           this.displayData(this.analyzeData(response));
     })
 
     .catch(err=>console.log(err));//if clarifai api fails
@@ -139,27 +185,64 @@ class App extends Component{
     return(
       
       <div className="App">
-       <Particles className='particles' 
+         <Navigation isSignedIn={isSignedIn} onRouteChange={this.onRouteChange}/>
+         
+        { route==='home' && imageUrl
+        ? ( <div>
+          <Particles className='particles' 
               params={particlesOptions}
             />
-        <Navigation isSignedIn={isSignedIn} onRouteChange={this.onRouteChange}/>
-        { route==='home'  
-        ? <div>
-           <Logo className='center' />
+           <Logo />
            <Rank name={this.state.user.name} entries={this.state.user.entries}/>
           <ImageLinkForm 
           onInputChange={this.onInputChange} 
           onButtonSubmit={this.onButtonSubmit}
           />
+           <Origin
+              age={this.state.analyze.age}
+              gender={this.state.analyze.gender}
+              appearance={this.state.analyze.appearance}
+              appearancePercent={this.state.analyze.appearancePercent}
+              appearance2={this.state.analyze.appearance2}
+              appearancePercent2={this.state.analyze.appearancePercent2}
+              appearance3={this.state.analyze.appearance3}
+              appearancePercent3={this.state.analyze.appearancePercent3}
+              appearance4={this.state.analyze.appearance4}
+              appearancePercent4={this.state.analyze.appearancePercent4}
+              appearance5={this.state.analyze.appearance5}
+              appearancePercent5={this.state.analyze.appearancePercent5}
+              appearance6={this.state.analyze.appearance6}
+              appearancePercent6={this.state.analyze.appearancePercent6}
+              appearance7={this.state.analyze.appearance7}
+              appearancePercent7={this.state.analyze.appearancePercent7}
+            />
          <FaceRecognition box={box} imageUrl={imageUrl}/>
+        </div>): route === "home" && !imageUrl ?
+        ( <div>
+          <Particles className='particles' 
+              params={particlesOptions}
+            />
+           <Logo />
+           <Rank name={this.state.user.name} entries={this.state.user.entries}/>
+          <ImageLinkForm 
+          onInputChange={this.onInputChange} 
+          onButtonSubmit={this.onButtonSubmit}
+          />
+
         </div>
-        :(
-            (route==='signin' || route==='signout')
-            ? <Signin loadUser={this.loadUser} onRouteChange={this.onRouteChange}/>
-            : <Register loadUser={this.loadUser} onRouteChange={this.onRouteChange}/> //route==='register'
-          )
+
+          ): route==='signin' || route==='signout' ?
+        (
+          <div>
+            <Signin loadUser={this.loadUser} onRouteChange={this.onRouteChange}/>
+          </div>
+            
+           ) :(
+           <div>
+            <Register loadUser={this.loadUser} onRouteChange={this.onRouteChange}/> 
+           </div>
+          ) 
       }
-     
         </div>
       );
   } 
