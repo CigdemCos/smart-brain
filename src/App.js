@@ -66,22 +66,22 @@ class App extends Component{
 
 
    analyzeData= (data) => {
-    const age = data.outputs[0].data.regions[0].data.face.age_appearance.concepts[0].name;
-    const gender = data.outputs[0].data.regions[0].data.face.gender_appearance.concepts[0].name;
-    const appearance = data.outputs[0].data.regions[0].data.face.multicultural_appearance.concepts[0].name;
-    const appearancePercent =Math.round (data.outputs[0].data.regions[0].data.face.multicultural_appearance.concepts[0].value.toFixed(2) * 100);
-    const appearance2 = data.outputs[0].data.regions[0].data.face.multicultural_appearance.concepts[1].name;
-    const appearancePercent2 = Math.round (data.outputs[0].data.regions[0].data.face.multicultural_appearance.concepts[1].value.toFixed(2) * 100);
-    const appearance3 = data.outputs[0].data.regions[0].data.face.multicultural_appearance.concepts[2].name;
-    const appearancePercent3 =Math.round (data.outputs[0].data.regions[0].data.face.multicultural_appearance.concepts[2].value.toFixed(2) * 100);
-    const appearance4 = data.outputs[0].data.regions[0].data.face.multicultural_appearance.concepts[3].name;
-    const appearancePercent4 = Math.round(data.outputs[0].data.regions[0].data.face.multicultural_appearance.concepts[3].value.toFixed(2) * 100);
-    const appearance5 = data.outputs[0].data.regions[0].data.face.multicultural_appearance.concepts[4].name;
-    const appearancePercent5 =Math.round (data.outputs[0].data.regions[0].data.face.multicultural_appearance.concepts[4].value.toFixed(2) * 100);
-    const appearance6 = data.outputs[0].data.regions[0].data.face.multicultural_appearance.concepts[5].name;
-    const appearancePercent6 = Math.round (data.outputs[0].data.regions[0].data.face.multicultural_appearance.concepts[5].value.toFixed(2) * 100);
-    const appearance7 = data.outputs[0].data.regions[0].data.face.multicultural_appearance.concepts[6].name;
-    const appearancePercent7 = Math.round (data.outputs[0].data.regions[0].data.face.multicultural_appearance.concepts[6].value.toFixed(2) * 100);
+    const age = data.outputs[0].data.regions[0].data.concepts[0].name;
+    const gender = data.outputs[0].data.regions[0].data.concepts[20].name;
+    const appearance = data.outputs[0].data.regions[0].data.concepts[22].name;
+    const appearancePercent = Math.round (data.outputs[0].data.regions[0].data.concepts[22].value.toFixed(2) * 100);
+    const appearance2 = data.outputs[0].data.regions[0].data.concepts[23].name;
+    const appearancePercent2 = Math.round (data.outputs[0].data.regions[0].data.concepts[23].value.toFixed(2) * 100);
+    const appearance3 = data.outputs[0].data.regions[0].data.concepts[24].name;
+    const appearancePercent3 = Math.round (data.outputs[0].data.regions[0].data.concepts[24].value.toFixed(2) * 100);
+    const appearance4 = data.outputs[0].data.regions[0].data.concepts[25].name;
+    const appearancePercent4 = Math.round (data.outputs[0].data.regions[0].data.concepts[25].value.toFixed(2) * 100);
+    const appearance5 = data.outputs[0].data.regions[0].data.concepts[26].name;
+    const appearancePercent5 = Math.round (data.outputs[0].data.regions[0].data.concepts[26].value.toFixed(2) * 100);
+    const appearance6 = data.outputs[0].data.regions[0].data.concepts[27].name;
+    const appearancePercent6 = Math.round (data.outputs[0].data.regions[0].data.concepts[27].value.toFixed(2) * 100); 
+    const appearance7 = data.outputs[0].data.regions[0].data.concepts[28].name;
+    const appearancePercent7 = Math.round (data.outputs[0].data.regions[0].data.concepts[28].value.toFixed(2) * 100);
 
     return {
       age,
